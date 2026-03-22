@@ -33,7 +33,7 @@ function TabIcon({ icon, active }: { icon: TabDefinition['icon']; active: boolea
     case 'echo':
       name = active ? 'radio' : 'radio-outline';
       break;
-    case 'create':
+    case 'social':
       name = active ? 'people' : 'people-outline';
       break;
     case 'explore':

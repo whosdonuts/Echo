@@ -68,7 +68,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar style={activeTab === 'create' ? 'light' : 'dark'} />
+      <StatusBar style={activeTab === 'explore' ? 'light' : 'dark'} />
       <LinearGradient
         colors={[colors.backgroundWarm, colors.background]}
         end={{ x: 1, y: 1 }}

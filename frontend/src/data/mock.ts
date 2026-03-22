@@ -31,23 +31,6 @@ export type TradeFragment = {
   tint: string;
 };
 
-export type MapPin = {
-  id: string;
-  label: string;
-  place: string;
-  zone: string;
-  time: string;
-  caption: string;
-  distance: string;
-  sound: string;
-  mood: string;
-  clue: string;
-  discovered: boolean;
-  x: string;
-  y: string;
-  tone: 'accent' | 'sage' | 'gold';
-};
-
 export type ExplorePlace = {
   id: string;
   title: string;
@@ -58,27 +41,6 @@ export type ExplorePlace = {
   distance: string;
   sound: string;
   activity: string;
-};
-
-export type FragmentComment = {
-  id: string;
-  author: string;
-  time: string;
-  text: string;
-};
-
-export type FragmentDetail = {
-  id: string;
-  title: string;
-  image: string;
-  caption: string;
-  sound: string;
-  location: string;
-  timestamp: string;
-  author: string;
-  tint: string;
-  shape: 'orb' | 'capsule';
-  comments: FragmentComment[];
 };
 
 export type ProfileStat = {
@@ -106,57 +68,6 @@ export type CreateMemoryDraft = {
   soundHint: string;
   successNote: string;
 };
-
-export const mapPins: MapPin[] = [
-  {
-    id: 'harbor',
-    label: 'Harbour Steps',
-    place: 'Old Port Ferry Steps',
-    zone: 'OLD PORT / ZONE 01',
-    time: '12 min ago',
-    caption: "Someone left gulls, ferry cables, and the line 'wait here a little longer.'",
-    distance: '120 m away',
-    sound: 'Harbor wind',
-    mood: 'Salt-heavy and warm',
-    clue: 'Ferry cables and gulls',
-    discovered: true,
-    x: '22%',
-    y: '28%',
-    tone: 'accent' as const,
-  },
-  {
-    id: 'clocktower',
-    label: 'Clock Tower Walk',
-    place: 'Clock Tower Walk',
-    zone: 'CLOCK TOWER / ZONE 02',
-    time: 'Nearby now',
-    caption: 'There is something here, but it has not been fully revealed yet.',
-    distance: '250 m away',
-    sound: 'Bells through traffic',
-    mood: 'Still hidden',
-    clue: 'Footsteps, bells, wet stone',
-    discovered: false,
-    x: '69%',
-    y: '42%',
-    tone: 'sage' as const,
-  },
-  {
-    id: 'station',
-    label: 'Platform 5 Rail',
-    place: 'Union Station Platform 5',
-    zone: 'UNION STATION / ZONE 03',
-    time: '2 h ago',
-    caption: 'Rain kept lifting off the tracks every time a train pulled out.',
-    distance: '400 m away',
-    sound: 'Train ambience',
-    mood: 'Blue and reflective',
-    clue: 'Coffee, brakes, platform wind',
-    discovered: true,
-    x: '50%',
-    y: '70%',
-    tone: 'gold' as const,
-  },
-];
 
 export const fragments: Fragment[] = [
   {
@@ -354,144 +265,6 @@ export const explorePlaces: ExplorePlace[] = [
   },
 ];
 
-const defaultComments: FragmentComment[] = [
-  {
-    id: 'comment-1',
-    author: 'Lina',
-    time: '12 min ago',
-    text: 'I passed here later and the air still felt exactly like this.',
-  },
-  {
-    id: 'comment-2',
-    author: 'Noah K.',
-    time: '28 min ago',
-    text: 'Read this while waiting for the streetcar and it changed the whole platform.',
-  },
-  {
-    id: 'comment-3',
-    author: 'Mara',
-    time: '1 h ago',
-    text: 'Small and good. Feels like finding a note tucked into a coat pocket.',
-  },
-];
-
-const mapComments: FragmentComment[] = [
-  {
-    id: 'map-comment-1',
-    author: 'Iris',
-    time: '9 min ago',
-    text: 'Walked by after dark and the gulls were louder than the traffic.',
-  },
-  {
-    id: 'map-comment-2',
-    author: 'Theo',
-    time: '32 min ago',
-    text: 'It felt softer here tonight. Thanks for leaving this behind.',
-  },
-  {
-    id: 'map-comment-3',
-    author: 'Jules',
-    time: '51 min ago',
-    text: 'The ferry horn hit right after I opened this. Weirdly perfect timing.',
-  },
-];
-
-const exploreComments: FragmentComment[] = [
-  {
-    id: 'explore-comment-1',
-    author: 'June',
-    time: '18 min ago',
-    text: 'This place always makes everybody quieter without asking them to be.',
-  },
-  {
-    id: 'explore-comment-2',
-    author: 'Ari',
-    time: '44 min ago',
-    text: 'I like that this feels more like a trace than a post.',
-  },
-  {
-    id: 'explore-comment-3',
-    author: 'Nell',
-    time: '1 h ago',
-    text: 'You can hear the shoes on wet pavement before you see anybody coming.',
-  },
-];
-
-function tintFromTone(tone: MapPin['tone']) {
-  if (tone === 'accent') {
-    return '#E8B9AB';
-  }
-
-  if (tone === 'sage') {
-    return '#A8B7A6';
-  }
-
-  return '#D8C08F';
-}
-
-export function detailFromAtlasFragment(fragment: AtlasFragment): FragmentDetail {
-  return {
-    id: fragment.id,
-    title: fragment.title,
-    image: fragment.image,
-    caption: fragment.caption,
-    sound: fragment.sound,
-    location: fragment.place,
-    timestamp: fragment.date,
-    author: fragment.friend ?? 'Mara Leone',
-    tint: fragment.tint,
-    shape: fragment.shape,
-    comments: defaultComments,
-  };
-}
-
-export function detailFromFragment(fragment: Fragment): FragmentDetail {
-  return {
-    id: fragment.id,
-    title: fragment.place,
-    image: fragment.image,
-    caption: fragment.caption,
-    sound: fragment.sound,
-    location: fragment.place,
-    timestamp: fragment.time,
-    author: 'Mara Leone',
-    tint: '#D8C2A0',
-    shape: 'capsule',
-    comments: defaultComments,
-  };
-}
-
-export function detailFromMapPin(pin: MapPin): FragmentDetail {
-  return {
-    id: pin.id,
-    title: pin.label,
-    image: pin.id === 'station' ? fragments[2].image : fragments[0].image,
-    caption: pin.caption,
-    sound: pin.sound,
-    location: pin.place,
-    timestamp: pin.time,
-    author: 'Nearby echo',
-    tint: tintFromTone(pin.tone),
-    shape: 'orb',
-    comments: mapComments,
-  };
-}
-
-export function detailFromExplorePlace(place: ExplorePlace): FragmentDetail {
-  return {
-    id: place.id,
-    title: place.title,
-    image: place.image,
-    caption: place.summary,
-    sound: place.sound,
-    location: place.title,
-    timestamp: place.activity,
-    author: 'Collected nearby',
-    tint: '#A4B7D8',
-    shape: 'capsule',
-    comments: exploreComments,
-  };
-}
 
 export const createMemoryDraft: CreateMemoryDraft = {
   zone: 'UNION STATION / ZONE 03',

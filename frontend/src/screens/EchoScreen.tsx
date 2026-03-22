@@ -21,13 +21,13 @@ import {
   EchoCollectionItem,
   EchoGalleryItem,
   allEchoCities,
+  allCitiesOrbImage,
   getEchoCity,
   getEchoCityMineEchoes,
   getEchoCityOtherEchoes,
   getEchoGalleryItemsForCity,
   recentEchoCities,
 } from '../data/echoMock';
-import { getEchoOrbAsset } from '../data/echoOrbAssets';
 import { colors } from '../theme/colors';
 import { shellMetrics } from '../theme/layout';
 
@@ -54,22 +54,18 @@ const archiveSlotCount = 37;
 const archiveMinScale = 0.3;
 const archiveMaxScale = 1.1;
 const cityDistanceKm: Record<string, number> = {
-  lisbon: 5760,
-  kyoto: 10380,
-  montreal: 540,
-  copenhagen: 6190,
-  seoul: 10570,
-  porto: 5650,
-  vienna: 6820,
-  reykjavik: 4210,
-  paris: 6000,
-  marrakech: 6340,
-  stockholm: 6320,
-  singapore: 14890,
-  tokyo: 10310,
+  barcelona: 6480,
+  milton: 88,
+  'london-ontario': 168,
+  mississauga: 44,
+  toronto: 0,
+  hamilton: 69,
+  'kingston-ja': 2860,
+  orlando: 1690,
   'new-york': 790,
-  'mexico-city': 3250,
-  istanbul: 8180,
+  vancouver: 3360,
+  chicago: 702,
+  dubai: 11020,
 };
 function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
@@ -237,8 +233,9 @@ function WheelOrb({
   opacity: number;
   onPress: () => void;
 }) {
-  const orbSource = item.type === 'all' ? getEchoOrbAsset('rose') : getEchoOrbAsset(item.city.orbKey);
+  const orbSource = item.type === 'all' ? { uri: allCitiesOrbImage } : { uri: item.city.image };
   const label = item.type === 'all' ? 'All' : item.city.name;
+  const overlayTop = item.type === 'all' ? colors.echoOliveBronze : colors.echoDarkCocoa;
 
   return (
     <Pressable
@@ -256,13 +253,17 @@ function WheelOrb({
     >
       <View style={styles.wheelShell}>
         <Image resizeMode="cover" source={orbSource} style={styles.wheelImage} />
+        <LinearGradient
+          colors={[withAlpha(overlayTop, active ? '96' : '86'), 'rgba(32, 28, 26, 0.14)', 'rgba(255,255,255,0.02)']}
+          locations={[0, 0.4, 1]}
+          end={{ x: 0.5, y: 1 }}
+          start={{ x: 0.5, y: 0 }}
+          style={StyleSheet.absoluteFillObject}
+        />
         <Text
-          numberOfLines={2}
-          style={[
-            styles.wheelOrbLabel,
-            active && styles.wheelOrbLabelActive,
-            item.type === 'all' && styles.wheelOrbLabelAll,
-          ]}
+          ellipsizeMode="clip"
+          numberOfLines={1}
+          style={[styles.wheelOrbLabel, active && styles.wheelOrbLabelActive, item.type === 'all' && styles.wheelOrbLabelAll]}
         >
           {label}
         </Text>
@@ -299,9 +300,11 @@ function ArchiveCityOrb({
   const size = itemSize;
   const ringInset = Math.max(2, size * 0.04);
   const labelVisible = !placeholder && focus > 0.42;
-  const metaVisible = !placeholder && focus > 0.72;
+  const progressVisible = !placeholder && focus > 0.72;
   const labelTop = size * 0.22;
-  const progressBottom = size * 0.16;
+  const progressBarWidth = size * 0.48;
+  const progressBottom = size * 0.18;
+  const progressTrackHeight = Math.max(3, size * 0.038);
   const progressHeight = city ? size * (0.18 + city.collectionProgress * 0.5) : 0;
 
   return (
@@ -332,13 +335,20 @@ function ArchiveCityOrb({
             <>
               <Image
                 resizeMode="cover"
-                source={getEchoOrbAsset(city.orbKey)}
-                style={{ width: size, height: size, borderRadius: size / 2 }}
-              />
+                  source={{ uri: city.image }}
+                  style={{ width: size, height: size, borderRadius: size / 2 }}
+                />
               <LinearGradient
                 colors={['rgba(255,255,255,0.34)', 'rgba(255,255,255,0)']}
                 end={{ x: 0.72, y: 0.76 }}
                 start={{ x: 0.08, y: 0.06 }}
+                style={StyleSheet.absoluteFillObject}
+              />
+              <LinearGradient
+                colors={['rgba(24,21,20,0.52)', 'rgba(24,21,20,0.14)', 'rgba(24,21,20,0)']}
+                locations={[0, 0.42, 1]}
+                end={{ x: 0.5, y: 1 }}
+                start={{ x: 0.5, y: 0 }}
                 style={StyleSheet.absoluteFillObject}
               />
               <LinearGradient
@@ -394,34 +404,47 @@ function ArchiveCityOrb({
           )}
           {labelVisible ? (
             <Text
-              numberOfLines={2}
+              ellipsizeMode="clip"
+              numberOfLines={1}
               style={[
                 styles.archiveCityLabel,
                 {
                   top: labelTop,
-                  fontSize: focused ? 12.5 : 10.5,
-                  left: 8,
-                  right: 8,
-                  opacity: 0.24 + focus * 0.72,
+                  left: 6,
+                  right: 6,
+                  opacity: 0.4 + focus * 0.48,
                 },
               ]}
             >
               {city?.name}
             </Text>
           ) : null}
-          {metaVisible ? (
-            <Text
+          {progressVisible && city ? (
+            <View
               style={[
-                styles.archiveCityMeta,
+                styles.archiveCityProgressBar,
                 {
+                  width: progressBarWidth,
                   bottom: progressBottom,
-                  fontSize: focused ? 11 : 9,
-                  opacity: 0.28 + focus * 0.82,
+                  height: progressTrackHeight,
+                  borderRadius: progressTrackHeight / 2,
                 },
               ]}
             >
-              {city ? `${Math.round(city.collectionProgress * 100)}%` : ''}
-            </Text>
+              <LinearGradient
+                colors={[withAlpha(city.accent, 'E8'), withAlpha(city.accent, focused ? 'FF' : 'D0')]}
+                end={{ x: 1, y: 0.5 }}
+                start={{ x: 0, y: 0.5 }}
+                style={[
+                  styles.archiveCityProgressFill,
+                  {
+                    width: Math.max(progressTrackHeight, progressBarWidth * city.collectionProgress),
+                    height: progressTrackHeight,
+                    borderRadius: progressTrackHeight / 2,
+                  },
+                ]}
+              />
+            </View>
           ) : null}
         </View>
       </Animated.View>
@@ -1094,7 +1117,9 @@ export function EchoScreen() {
         {view === 'main' ? (
           <View style={styles.main}>
             <View pointerEvents="none" style={[styles.mainOverlay, { top: insets.top + 18 }]}>
-              <Text style={styles.mainBrand}>Echo</Text>
+              <View style={styles.mainHeader}>
+                <Text style={styles.mainBrand}>Echoes</Text>
+              </View>
             </View>
 
             <View style={[styles.mainStage, { height: wheelStageHeight }]}>
@@ -1366,13 +1391,14 @@ const styles = StyleSheet.create({
     right: shellMetrics.horizontalPadding,
     zIndex: 300,
   },
-  mainHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  mainHeader: { alignItems: 'center', justifyContent: 'center' },
   mainBrand: {
     color: colors.echoInk,
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: uiFont,
-    fontWeight: '500',
-    letterSpacing: 0.1,
+    fontWeight: '700',
+    letterSpacing: 0.45,
+    textAlign: 'center',
   },
   mainStage: {
     width: '100%',
@@ -1500,23 +1526,28 @@ const styles = StyleSheet.create({
   },
   archiveCityLabel: {
     position: 'absolute',
-    color: colors.echoInk,
-    lineHeight: 13,
+    color: '#FFFDFB',
+    fontSize: 9.5,
+    lineHeight: 11,
     fontFamily: uiFont,
     fontWeight: '600',
-    letterSpacing: 0.1,
+    letterSpacing: 0,
     textAlign: 'center',
-    textShadowColor: 'rgba(255,255,255,0.78)',
+    textShadowColor: 'rgba(18, 15, 14, 0.42)',
     textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 8,
+    textShadowRadius: 6,
   },
-  archiveCityMeta: {
+  archiveCityProgressBar: {
     position: 'absolute',
-    color: colors.echoInk,
-    fontFamily: uiFont,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-    textAlign: 'center',
+    alignSelf: 'center',
+    overflow: 'hidden',
+    backgroundColor: 'rgba(255,255,255,0.24)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+  },
+  archiveCityProgressFill: {
+    position: 'absolute',
+    left: 0,
   },
   mainUtility: {
     borderRadius: 999,
@@ -1586,26 +1617,25 @@ const styles = StyleSheet.create({
   wheelImage: { width: orbSize, height: orbSize, borderRadius: 999 },
   wheelOrbLabel: {
     position: 'absolute',
-    top: 28,
-    left: 10,
-    right: 10,
-    color: 'rgba(32, 28, 26, 0.82)',
-    fontSize: 11,
-    lineHeight: 13,
+    top: 19,
+    left: 6,
+    right: 6,
+    color: '#FFFDFB',
+    fontSize: 9.5,
+    lineHeight: 11,
     fontFamily: uiFont,
     fontWeight: '600',
-    letterSpacing: 0.1,
+    letterSpacing: 0,
     textAlign: 'center',
-    textShadowColor: 'rgba(255, 255, 255, 0.82)',
+    textShadowColor: 'rgba(18, 15, 14, 0.44)',
     textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 10,
+    textShadowRadius: 6,
   },
   wheelOrbLabelActive: {
-    color: colors.echoInk,
     fontWeight: '700',
   },
   wheelOrbLabelAll: {
-    top: 36,
+    top: 31,
   },
   wheelAllButton: {
     position: 'absolute',

@@ -1,0 +1,402 @@
+[
+  {
+    "title": "The Ivey Atrium",
+    "subtitle": "Richard Ivey Building",
+    "tag": "Featured",
+    "lat": 43.00442456664341,
+    "lng": -81.2772524774118
+  },
+  {
+    "title": "Case Comp Glow",
+    "subtitle": "Richard Ivey Building",
+    "tag": "Rare",
+    "lat": 43.00452456664341,
+    "lng": -81.2770524774118
+  },
+  {
+    "title": "South Entrance Static",
+    "subtitle": "Richard Ivey Building",
+    "tag": "Common",
+    "lat": 43.00422456664341,
+    "lng": -81.2774524774118
+  },
+  {
+    "title": "Weldon Quiet Hour",
+    "subtitle": "Weldon Library",
+    "tag": "Archive",
+    "lat": 43.00800458152747,
+    "lng": -81.27550327295427
+  },
+  {
+    "title": "Third Floor Silence",
+    "subtitle": "Weldon Library",
+    "tag": "Rare",
+    "lat": 43.00810458152747,
+    "lng": -81.27530327295428
+  },
+  {
+    "title": "Between the Stacks",
+    "subtitle": "Weldon Library",
+    "tag": "Common",
+    "lat": 43.00790458152747,
+    "lng": -81.27570327295427
+  },
+  {
+    "title": "Noon Rush",
+    "subtitle": "University Community Centre",
+    "tag": "Social",
+    "lat": 43.008777070295594,
+    "lng": -81.27618389675149
+  },
+  {
+    "title": "The UCC Shortcut",
+    "subtitle": "University Community Centre",
+    "tag": "Common",
+    "lat": 43.0086770702956,
+    "lng": -81.2763838967515
+  },
+  {
+    "title": "Waiting on a Friend",
+    "subtitle": "University Community Centre",
+    "tag": "Unlocked",
+    "lat": 43.0088770702956,
+    "lng": -81.27598389675148
+  },
+  {
+    "title": "Under the Clocktower",
+    "subtitle": "University College",
+    "tag": "Featured",
+    "lat": 43.00289409345069,
+    "lng": -81.27597473513275
+  },
+  {
+    "title": "Red Brick Echo",
+    "subtitle": "University College",
+    "tag": "Archive",
+    "lat": 43.00299409345069,
+    "lng": -81.27577473513276
+  },
+  {
+    "title": "Steps Before Winter",
+    "subtitle": "University College",
+    "tag": "Rare",
+    "lat": 43.00279409345069,
+    "lng": -81.27617473513276
+  },
+  {
+    "title": "Taylor Last Light",
+    "subtitle": "Taylor Library",
+    "tag": "Common",
+    "lat": 43.01152540884369,
+    "lng": -81.27340837645401
+  },
+  {
+    "title": "North Wing Signal",
+    "subtitle": "Taylor Library",
+    "tag": "Rare",
+    "lat": 43.01162540884369,
+    "lng": -81.27320837645401
+  },
+  {
+    "title": "Deadline Weather",
+    "subtitle": "Taylor Library",
+    "tag": "Archive",
+    "lat": 43.01142540884369,
+    "lng": -81.273608376454
+  },
+  {
+    "title": "The Law Steps",
+    "subtitle": "Law Building",
+    "tag": "Common",
+    "lat": 43.00646526416653,
+    "lng": -81.27599652731318
+  },
+  {
+    "title": "After Moot Court",
+    "subtitle": "Law Building",
+    "tag": "Rare",
+    "lat": 43.00656526416653,
+    "lng": -81.27579652731318
+  },
+  {
+    "title": "Music Hall Reverb",
+    "subtitle": "Music Building",
+    "tag": "Common",
+    "lat": 43.0068524523182,
+    "lng": -81.27119599434178
+  },
+  {
+    "title": "Practice Room Static",
+    "subtitle": "Music Building",
+    "tag": "Rare",
+    "lat": 43.0069524523182,
+    "lng": -81.27099599434177
+  },
+  {
+    "title": "Rotunda Drift",
+    "subtitle": "Middlesex College",
+    "tag": "Common",
+    "lat": 43.01030787365765,
+    "lng": -81.27427531855709
+  },
+  {
+    "title": "Middlesex Between Classes",
+    "subtitle": "Middlesex College",
+    "tag": "Social",
+    "lat": 43.01040787365765,
+    "lng": -81.2740753185571
+  },
+  {
+    "title": "Physics Courtyard Signal",
+    "subtitle": "Physics and Astronomy Building",
+    "tag": "Rare",
+    "lat": 43.009827158943686,
+    "lng": -81.27262773111056
+  },
+  {
+    "title": "Before the Lab",
+    "subtitle": "Physics and Astronomy Building",
+    "tag": "Common",
+    "lat": 43.00972715894368,
+    "lng": -81.27282773111055
+  },
+  {
+    "title": "Nursing Night Shift",
+    "subtitle": "FIMS & Nursing Building",
+    "tag": "Rare",
+    "lat": 43.00626574061804,
+    "lng": -81.27251037464399
+  },
+  {
+    "title": "FIMS Glassline",
+    "subtitle": "FIMS & Nursing Building",
+    "tag": "Common",
+    "lat": 43.00636574061804,
+    "lng": -81.272310374644
+  },
+  {
+    "title": "Alumni Echo",
+    "subtitle": "Alumni Hall",
+    "tag": "Featured",
+    "lat": 43.006153176931456,
+    "lng": -81.27477842238233
+  },
+  {
+    "title": "Pre-Game Static",
+    "subtitle": "Alumni Hall",
+    "tag": "Social",
+    "lat": 43.00625317693146,
+    "lng": -81.27457842238233
+  },
+  {
+    "title": "Natural Sciences North",
+    "subtitle": "Natural Sciences Centre",
+    "tag": "Common",
+    "lat": 43.01065115493879,
+    "lng": -81.27298348878283
+  },
+  {
+    "title": "Brain and Mind Afterglow",
+    "subtitle": "Natural Sciences Centre",
+    "tag": "Rare",
+    "lat": 43.01075115493879,
+    "lng": -81.27278348878284
+  },
+  {
+    "title": "The SSC Crossing",
+    "subtitle": "Social Science Centre",
+    "tag": "Common",
+    "lat": 43.009677430373905,
+    "lng": -81.27505268507699
+  },
+  {
+    "title": "Five Minutes Early",
+    "subtitle": "Social Science Centre",
+    "tag": "Unlocked",
+    "lat": 43.0097774303739,
+    "lng": -81.274852685077
+  },
+  {
+    "title": "Talbot Blue Hour",
+    "subtitle": "Talbot College",
+    "tag": "Rare",
+    "lat": 43.00781800994964,
+    "lng": -81.270228915769
+  },
+  {
+    "title": "Studio to Sunset",
+    "subtitle": "Talbot College",
+    "tag": "Common",
+    "lat": 43.00791800994964,
+    "lng": -81.270028915769
+  },
+  {
+    "title": "Stevenson South Door",
+    "subtitle": "Stevenson Hall",
+    "tag": "Common",
+    "lat": 43.00903430589834,
+    "lng": -81.27396338692988
+  },
+  {
+    "title": "Thames Hall Return",
+    "subtitle": "Thames Hall",
+    "tag": "Archive",
+    "lat": 43.00725233786981,
+    "lng": -81.27478901912983
+  },
+  {
+    "title": "Where Ivey dreams are demolished",
+    "subtitle": "Somerville House",
+    "tag": "Common",
+    "lat": 43.00796469200296,
+    "lng": -81.27436883663809
+  },
+  {
+    "title": "Clinical Skills Check-In",
+    "subtitle": "Clinical Skills Learning Building",
+    "tag": "Common",
+    "lat": 43.01008368716914,
+    "lng": -81.27469258753075
+  },
+  {
+    "title": "North Campus Signal",
+    "subtitle": "North Campus Building",
+    "tag": "Rare",
+    "lat": 43.01033486543144,
+    "lng": -81.26969930227446
+  },
+  {
+    "title": "A&H Back Then",
+    "subtitle": "Arts & Humanities Building",
+    "tag": "Archive",
+    "lat": 43.00773390531458,
+    "lng": -81.27279047697814
+  },
+  {
+    "title": "Gallery Quiet",
+    "subtitle": "McIntosh Gallery",
+    "tag": "Rare",
+    "lat": 43.00962050470016,
+    "lng": -81.27331771391312
+  },
+  {
+    "title": "Med Sci Merge",
+    "subtitle": "Medical Science Building",
+    "tag": "Common",
+    "lat": 43.01030787365765,
+    "lng": -81.27427531855709
+  },
+  {
+    "title": "Visual Arts Spill",
+    "subtitle": "Visual Arts Centre",
+    "tag": "Common",
+    "lat": 43.01094601845993,
+    "lng": -81.27008000179029
+  },
+  {
+    "title": "Rec Centre Pulse",
+    "subtitle": "Western Student Recreation Centre",
+    "tag": "Social",
+    "lat": 43.00335302121385,
+    "lng": -81.27496008346839
+  },
+  {
+    "title": "Student Services Lineup",
+    "subtitle": "Western Student Services Building",
+    "tag": "Common",
+    "lat": 43.00838976203776,
+    "lng": -81.27647154227826
+  },
+  {
+    "title": "Delaware After Dark",
+    "subtitle": "Delaware Hall Residence",
+    "tag": "Rare",
+    "lat": 43.01320723208238,
+    "lng": -81.27983390193747
+  },
+  {
+    "title": "Saugeen at 2AM",
+    "subtitle": "Saugeen-Maitland Hall Residence",
+    "tag": "Legendary",
+    "lat": 43.011483179780484,
+    "lng": -81.27908458661831
+  },
+  {
+    "title": "Medway East Walk",
+    "subtitle": "Medway Hall Residence",
+    "tag": "Common",
+    "lat": 43.00830735973813,
+    "lng": -81.26363127087043
+  },
+  {
+    "title": "Elgin Courtyard Check-In",
+    "subtitle": "Elgin Hall Residence",
+    "tag": "Unlocked",
+    "lat": 43.00870053219404,
+    "lng": -81.26382669148599
+  },
+  {
+    "title": "Ontario Hall Windowlight",
+    "subtitle": "Ontario Hall Residence",
+    "tag": "Rare",
+    "lat": 43.000999617073795,
+    "lng": -81.27931903079585
+  },
+  {
+    "title": "Pushing P at Perth",
+    "subtitle": "Perth Hall Residence",
+    "tag": "Common",
+    "lat": 43.00013137386861,
+    "lng": -81.27687854244074
+  },
+  {
+    "title": "Essex Quiet Side",
+    "subtitle": "Essex Hall Residence",
+    "tag": "Common",
+    "lat": 43.001334930619464,
+    "lng": -81.2755826455785
+  },
+  {
+    "title": "What happens in Lambton stays in Lambton",
+    "subtitle": "Lambton Hall Residence",
+    "tag": "Archive",
+    "lat": 43.013669608881216,
+    "lng": -81.27748360682861
+  }
+  ,
+{
+  "title": "Mostly engineers, mostly all-nighters",
+  "subtitle": "Amit Chakma Engineering Building",
+  "tag": "Featured",
+  "lat": 43.00279409345069,
+  "lng": -81.2774524774118
+},
+{
+  "title": "Between Classes at Subway",
+  "subtitle": "Subway",
+  "tag": "Common",
+  "lat": 43.0019,
+  "lng": -81.2766
+},
+{
+  "title": "Late Plate",
+  "subtitle": "Ontario Hall Dining",
+  "tag": "Common",
+  "lat": 43.0012,
+  "lng": -81.2755826455785
+},
+{
+  "title": "London Check-In",
+  "subtitle": "London Hall",
+  "tag": "Common",
+  "lat": 43.000604292947784,
+  "lng": -81.27584732217126
+},
+{
+  "title": "Game Day Static",
+  "subtitle": "Western Alumni Stadium",
+  "tag": "Rare",
+  "lat": 43.00072733637724,
+  "lng": -81.27395582918265
+}
+]

@@ -1,6 +1,24 @@
 node_modules/
-frontend/node_modules/
-frontend/.expo/
-backend/node_modules/
+.expo/
+
+# Build artifacts
+dist/
+build/
+.next/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
 *.log
 
+# IDE
+.idea/
+.vscode/
+*.swp

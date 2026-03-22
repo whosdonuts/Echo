@@ -8,21 +8,5 @@
     "frontend:web": "npm --prefix frontend run web",
     "frontend:typecheck": "npm --prefix frontend run typecheck",
     "backend": "npm --prefix backend run dev"
-  },
-  "dependencies": {
-    "@expo/metro-runtime": "~55.0.6",
-    "@types/react": "~19.2.10",
-    "expo": "^55.0.8",
-    "expo-asset": "~55.0.10",
-    "expo-font": "~55.0.4",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "react-native": "0.83.2",
-    "react-native-web": "^0.21.0",
-    "typescript": "~5.9.2"
-  },
-  "devDependencies": {
-    "@types/react": "~19.2.10",
-    "typescript": "~5.9.2"
   }
 }

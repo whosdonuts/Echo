@@ -1,9 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
 import { EchoMap } from '../components/map/EchoMap';
 import { FragmentSheet } from '../components/map/FragmentSheet';
+import { AcebFlow } from '../components/map/AcebFlow';
 import type { WesternFragment } from '../data/map/geo';
 import { colors } from '../theme/colors';
 
@@ -18,6 +19,12 @@ const webGlass =
 export function MapScreen() {
   const insets = useSafeAreaInsets();
   const [selected, setSelected] = useState<WesternFragment | null>(null);
+  const [acebOpen, setAcebOpen] = useState(false);
+
+  const openAceb = useCallback(() => {
+    setSelected(null);
+    setAcebOpen(true);
+  }, []);
 
   const sheetBottom = useMemo(
     () => Math.max(insets.bottom + 104, 132),
@@ -26,7 +33,7 @@ export function MapScreen() {
 
   return (
     <View style={styles.container}>
-      <EchoMap onFragmentSelect={setSelected} />
+      <EchoMap onFragmentSelect={setSelected} onAcebClick={openAceb} />
 
       {/* ── Floating HUD ─────────────────────────────────── */}
       <View
@@ -66,6 +73,9 @@ export function MapScreen() {
           bottom={sheetBottom}
         />
       ) : null}
+
+      {/* ── ACEB interaction flow ─────────────────────────── */}
+      <AcebFlow visible={acebOpen} onClose={() => setAcebOpen(false)} />
     </View>
   );
 }

@@ -2,10 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { WesternFragment } from '../../data/map/geo';
 import {
   getTagColor, isPremiumTag, isUnlockedTag, isLockedTag,
-  isAcebFragment, PERTH_HALL, fragmentsToGeoJSON,
+  isAcebFragment, fragmentsToGeoJSON,
 } from '../../data/map/geo';
-import { LONDON_AMBIENT } from '../../data/map/londonAmbient';
-import { BARCELONA_HEROES, BARCELONA_ALL, BARCELONA_CENTER, BARCELONA_AMBIENT_ONLY } from '../../data/map/barcelona';
+import { BARCELONA_HEROES, BARCELONA_CENTER, BARCELONA_AMBIENT_ONLY } from '../../data/map/barcelona';
 
 const TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN ?? '';
 const GL_VERSION = '3.9.0';
@@ -138,17 +137,17 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
       mapRef.current = map;
 
       map.on('load', () => {
-        addLondonLayers(map);
         addCampusMarkers(map, gl);
         addPlayer(map, gl);
-
-        map.on('click', 'london-core', (e: any) => handleGLClick(e));
       });
 
       map.on('click', (e: any) => {
         if (travelRef.current) return;
-        const fs = map.queryRenderedFeatures(e.point, { layers: ['london-core', 'bcn-core'].filter((id) => !!map.getLayer(id)) });
-        if (fs.length > 0) return;
+        const activeLayers = ['bcn-core'].filter((id) => !!map.getLayer(id));
+        if (activeLayers.length > 0) {
+          const fs = map.queryRenderedFeatures(e.point, { layers: activeLayers });
+          if (fs.length > 0) return;
+        }
         closePopup();
         cbRef.current(null);
       });
@@ -172,7 +171,7 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
     };
   }, []);
 
-  // ── GL layer click handler ──────────────────────────────────────────
+  // ── GL layer click handler (Barcelona only) ─────────────────────────
 
   function handleGLClick(e: any) {
     if (travelRef.current) return;
@@ -205,7 +204,7 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
     popupRef.current = null;
   }
 
-  // ── Campus markers ──────────────────────────────────────────────────
+  // ── Campus markers (single render system — DOM Markers only) ────────
 
   function addCampusMarkers(map: any, gl: any) {
     const frags = require('../../data/map/westernFragments.json') as WesternFragment[];
@@ -223,7 +222,6 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
   function handleFragmentClick(frag: WesternFragment, el: HTMLElement) {
     if (travelRef.current) return;
 
-    // Ripple
     const ripple = document.createElement('div');
     ripple.className = 'echo-ripple';
     ripple.style.color = getTagColor(frag.tag).core;
@@ -287,7 +285,6 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
     cbRef.current(null);
     setTravelLabel('Leaving London, Ontario…');
 
-    // Hide campus markers
     campusMarkersRef.current.forEach((m) => m.remove());
     playerRef.current?.remove();
 
@@ -303,7 +300,6 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
       setTimeout(() => {
         setTravelLabel('Arriving in Barcelona…');
 
-        // Add Barcelona layers (ambient only — heroes are DOM Markers)
         const geo = fragmentsToGeoJSON(BARCELONA_AMBIENT_ONLY);
         if (!map.getSource('barcelona')) {
           map.addSource('barcelona', { type: 'geojson', data: geo });
@@ -314,7 +310,6 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
 
         map.flyTo({ center: [BARCELONA_CENTER.lng, BARCELONA_CENTER.lat], zoom: 13.2, pitch: 25, bearing: 0, duration: 2800, essential: true });
 
-        // Show hero markers after delay
         setTimeout(() => {
           for (const frag of BARCELONA_HEROES) {
             const el = createOrbEl(frag);
@@ -343,7 +338,6 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
     cbRef.current(null);
     setTravelLabel('Leaving Barcelona…');
 
-    // Remove Barcelona markers
     bcnHeroMarkersRef.current.forEach((m) => m.remove());
     bcnHeroMarkersRef.current = [];
 
@@ -354,7 +348,6 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
       cityRef.current = 'western';
       setCityMode('western');
 
-      // Remove Barcelona layers
       if (map.getLayer('bcn-glow')) map.removeLayer('bcn-glow');
       if (map.getLayer('bcn-core')) map.removeLayer('bcn-core');
       if (map.getSource('barcelona')) map.removeSource('barcelona');
@@ -365,7 +358,6 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
         setTravelLabel('Arriving at Western…');
         map.flyTo({ center: [WALK_START[0], WALK_START[1]], zoom: 14.6, pitch: 0, bearing: 0, duration: 2800, essential: true });
 
-        // Restore campus markers
         setTimeout(() => {
           campusMarkersRef.current.forEach((m) => m.addTo(map));
           playerRef.current?.addTo(map);
@@ -412,26 +404,6 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
       )}
     </div>
   );
-}
-
-// ── London layers ───────────────────────────────────────────────────────
-
-const CAMPUS_CENTER_LAT = 43.004;
-const CAMPUS_CENTER_LNG = -81.274;
-const CAMPUS_EXCLUSION = 0.015;
-
-function isNearCampus(f: WesternFragment): boolean {
-  return Math.abs(f.lat - CAMPUS_CENTER_LAT) < CAMPUS_EXCLUSION &&
-         Math.abs(f.lng - CAMPUS_CENTER_LNG) < CAMPUS_EXCLUSION;
-}
-
-function addLondonLayers(map: any) {
-  const londonHandcrafted = require('../../data/map/londonFragments.json') as WesternFragment[];
-  const all = [...londonHandcrafted, ...LONDON_AMBIENT].filter((f) => !isNearCampus(f));
-  const geo = fragmentsToGeoJSON(all);
-  map.addSource('london', { type: 'geojson', data: geo });
-  map.addLayer({ id: 'london-glow', type: 'circle', source: 'london', maxzoom: 14, paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3, 12, 5, 14, 8], 'circle-color': '#9333ea', 'circle-opacity': 0.12, 'circle-blur': 0.8 } });
-  map.addLayer({ id: 'london-core', type: 'circle', source: 'london', maxzoom: 14, paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 1.5, 12, 3, 14, 5], 'circle-color': '#7c3aed', 'circle-opacity': 0.35, 'circle-stroke-width': 0.5, 'circle-stroke-color': 'rgba(255,255,255,0.5)' } });
 }
 
 // ── Orb element ─────────────────────────────────────────────────────────

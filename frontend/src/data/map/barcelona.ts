@@ -110,6 +110,7 @@ function generateCorridors(count: number, rng: () => number): WesternFragment[] 
 const _ambient = generateAmbient(160);
 const _corridors = generateCorridors(40, mulberry32(SEED + 7));
 
-export const BARCELONA_ALL: WesternFragment[] = [...BARCELONA_HEROES, ..._ambient, ..._corridors];
+export const BARCELONA_AMBIENT_ONLY: WesternFragment[] = [..._ambient, ..._corridors];
+export const BARCELONA_ALL: WesternFragment[] = [...BARCELONA_HEROES, ...BARCELONA_AMBIENT_ONLY];
 export const barcelonaCount = BARCELONA_ALL.length;
 export const barcelonaUnlockedCount = BARCELONA_ALL.filter((f) => f.tag === 'Unlocked').length;

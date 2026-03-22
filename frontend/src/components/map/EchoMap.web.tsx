@@ -5,7 +5,7 @@ import {
   isAcebFragment, PERTH_HALL, fragmentsToGeoJSON,
 } from '../../data/map/geo';
 import { LONDON_AMBIENT } from '../../data/map/londonAmbient';
-import { BARCELONA_HEROES, BARCELONA_ALL, BARCELONA_CENTER } from '../../data/map/barcelona';
+import { BARCELONA_HEROES, BARCELONA_ALL, BARCELONA_CENTER, BARCELONA_AMBIENT_ONLY } from '../../data/map/barcelona';
 
 const TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN ?? '';
 const GL_VERSION = '3.9.0';
@@ -303,8 +303,8 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
       setTimeout(() => {
         setTravelLabel('Arriving in Barcelona…');
 
-        // Add Barcelona layers
-        const geo = fragmentsToGeoJSON(BARCELONA_ALL);
+        // Add Barcelona layers (ambient only — heroes are DOM Markers)
+        const geo = fragmentsToGeoJSON(BARCELONA_AMBIENT_ONLY);
         if (!map.getSource('barcelona')) {
           map.addSource('barcelona', { type: 'geojson', data: geo });
           map.addLayer({ id: 'bcn-glow', type: 'circle', source: 'barcelona', paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3, 13, 6, 15, 9], 'circle-color': 'rgba(147,51,234,0.14)', 'circle-blur': 0.6 } });
@@ -416,9 +416,18 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
 
 // ── London layers ───────────────────────────────────────────────────────
 
+const CAMPUS_CENTER_LAT = 43.004;
+const CAMPUS_CENTER_LNG = -81.274;
+const CAMPUS_EXCLUSION = 0.015;
+
+function isNearCampus(f: WesternFragment): boolean {
+  return Math.abs(f.lat - CAMPUS_CENTER_LAT) < CAMPUS_EXCLUSION &&
+         Math.abs(f.lng - CAMPUS_CENTER_LNG) < CAMPUS_EXCLUSION;
+}
+
 function addLondonLayers(map: any) {
   const londonHandcrafted = require('../../data/map/londonFragments.json') as WesternFragment[];
-  const all = [...londonHandcrafted, ...LONDON_AMBIENT];
+  const all = [...londonHandcrafted, ...LONDON_AMBIENT].filter((f) => !isNearCampus(f));
   const geo = fragmentsToGeoJSON(all);
   map.addSource('london', { type: 'geojson', data: geo });
   map.addLayer({ id: 'london-glow', type: 'circle', source: 'london', maxzoom: 14, paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3, 12, 5, 14, 8], 'circle-color': '#9333ea', 'circle-opacity': 0.12, 'circle-blur': 0.8 } });
@@ -433,6 +442,9 @@ function createOrbEl(frag: WesternFragment): HTMLDivElement {
   const unlocked = isUnlockedTag(frag.tag);
   const locked = isLockedTag(frag.tag);
   const size = premium ? 38 : 32;
+  const coreSize = premium ? 14 : 11;
+  const glowSpread = premium ? 10 : 7;
+  const glowBlur = premium ? 6 : 5;
 
   const wrap = document.createElement('div');
   wrap.className = ['echo-orb', premium ? 'echo-orb--premium' : '', unlocked ? 'echo-orb--unlocked' : '', locked ? 'echo-orb--locked' : ''].filter(Boolean).join(' ');
@@ -441,10 +453,14 @@ function createOrbEl(frag: WesternFragment): HTMLDivElement {
 
   const glow = document.createElement('div');
   glow.className = 'echo-orb__glow';
-  glow.style.backgroundColor = tc.glow;
+  glow.style.width = `${size}px`;
+  glow.style.height = `${size}px`;
+  glow.style.boxShadow = `0 0 ${glowBlur}px ${glowSpread}px ${tc.glow}`;
 
   const core = document.createElement('div');
   core.className = 'echo-orb__core';
+  core.style.width = `${coreSize}px`;
+  core.style.height = `${coreSize}px`;
   core.style.backgroundColor = locked ? '#94a3b8' : tc.core;
 
   wrap.appendChild(glow);
@@ -461,14 +477,14 @@ function createOrbEl(frag: WesternFragment): HTMLDivElement {
 // ── Injected CSS ────────────────────────────────────────────────────────
 
 const ALL_CSS = `
-.echo-orb { position:relative; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform .15s; }
+.echo-orb { position:relative; cursor:pointer; display:flex; align-items:center; justify-content:center; will-change:transform; }
 .echo-orb:hover { transform:scale(1.12); }
-.echo-orb__glow { position:absolute; width:24px; height:24px; border-radius:50%; filter:blur(5px); }
-.echo-orb--premium .echo-orb__glow { width:30px; height:30px; filter:blur(6px); animation:orb-breathe 2.8s ease-in-out infinite; }
+.echo-orb__glow { position:absolute; border-radius:50%; }
+.echo-orb--premium .echo-orb__glow { animation:orb-breathe 2.8s ease-in-out infinite; }
 .echo-orb--unlocked .echo-orb__glow { animation:orb-breathe 3s ease-in-out infinite; }
 .echo-orb--locked .echo-orb__glow { opacity:.4; }
-.echo-orb__core { width:11px; height:11px; border-radius:50%; border:1.5px solid rgba(255,255,255,.95); box-shadow:0 1px 4px rgba(0,0,0,.12); transition:transform .2s; z-index:1; }
-.echo-orb--premium .echo-orb__core { width:14px; height:14px; border-width:2px; }
+.echo-orb__core { border-radius:50%; border:1.5px solid rgba(255,255,255,.95); box-shadow:0 1px 4px rgba(0,0,0,.12); z-index:1; }
+.echo-orb--premium .echo-orb__core { border-width:2px; }
 .echo-orb--unlocked .echo-orb__core { border-color:rgba(255,230,150,.92); box-shadow:0 0 6px rgba(212,160,23,.35),0 1px 4px rgba(0,0,0,.12); }
 .echo-orb--locked .echo-orb__core { opacity:.55; border-color:rgba(255,255,255,.6); }
 .echo-orb:hover .echo-orb__core { transform:scale(1.18); }

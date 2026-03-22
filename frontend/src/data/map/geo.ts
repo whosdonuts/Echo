@@ -41,6 +41,12 @@ export function isLockedTag(tag: string) {
   return tag.toLowerCase() === 'locked';
 }
 
+export const ACEB_SUBTITLE = 'Amit Chakma Engineering Building';
+
+export function isAcebFragment(f: WesternFragment) {
+  return f.subtitle === ACEB_SUBTITLE;
+}
+
 export function fragmentsToGeoJSON(fragments: WesternFragment[]) {
   return {
     type: 'FeatureCollection' as const,

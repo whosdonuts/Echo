@@ -5,6 +5,7 @@ import { colors } from '../../theme/colors';
 
 export type EchoMapProps = {
   onFragmentSelect: (fragment: WesternFragment | null) => void;
+  onAcebClick: () => void;
 };
 
 export function EchoMap(_props: EchoMapProps) {
@@ -27,48 +28,45 @@ export function EchoMap(_props: EchoMapProps) {
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.background,
-    padding: 32,
   },
   card: {
     alignItems: 'center',
-    gap: 14,
+    gap: 12,
     padding: 32,
-    borderRadius: 28,
-    backgroundColor: colors.surfaceElevated,
-    borderWidth: 1,
-    borderColor: colors.borderSoft,
-    shadowColor: colors.shadow,
-    shadowOpacity: 0.12,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 8 },
+    borderRadius: 20,
+    backgroundColor: colors.surface,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
   },
   title: {
-    fontSize: 22,
+    fontSize: 17,
     fontWeight: '700',
     color: colors.text,
-    fontFamily: 'Georgia',
   },
   body: {
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize: 13,
+    lineHeight: 19,
     color: colors.textSoft,
-    fontWeight: '500',
     textAlign: 'center',
   },
   codePill: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 12,
-    backgroundColor: colors.surfaceMuted,
+    marginTop: 4,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 10,
+    backgroundColor: 'rgba(0,0,0,0.04)',
   },
   code: {
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: 12,
+    fontWeight: '600',
+    fontFamily: 'monospace',
     color: colors.text,
-    fontFamily: 'Courier',
   },
 });

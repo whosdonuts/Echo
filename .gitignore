@@ -1,10 +1,14 @@
+# Dependencies
 node_modules/
+
+# Expo
 .expo/
 
 # Build artifacts
 dist/
 build/
 .next/
+*.tsbuildinfo
 
 # Environment
 .env
@@ -22,3 +26,5 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+*.swo
+*~

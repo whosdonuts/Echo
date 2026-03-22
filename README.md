@@ -1,32 +1,42 @@
 # Echo
 
-Repository cleanup for the Echo prototype with the app and backend separated.
+Monorepo for the Echo prototype — a location-based memory discovery app.
 
 ## Structure
 
-- `frontend/`: Expo React Native app
-- `backend/`: lightweight Node mock API for prototype data
+```
+/
+  frontend/   Expo React Native app (SDK 53 / RN 0.79)
+  backend/    Lightweight Node mock API
+```
 
-## Run
+## Quick start
 
-Frontend:
+### Frontend
 
 ```bash
 cd frontend
 npm install
-npm run start
+npx expo start --web        # web (map requires web)
+npx expo start              # native dev client
 ```
 
-Backend:
+### Backend
 
 ```bash
 cd backend
 npm run dev
 ```
 
+### From repo root
+
+```bash
+npm run frontend:web        # shortcut for cd frontend && expo start --web
+npm run backend              # shortcut for cd backend && node --watch server.js
+```
+
 ## Notes
 
-- The frontend remains an Expo app.
-- The backend uses Node's built-in HTTP server and serves mock JSON only.
-- A legacy root `node_modules/` may still exist from the pre-cleanup layout; the clean install path is now inside `frontend/`.
-
+- The map tab uses Mapbox GL JS and requires the web target (`npx expo start --web`).
+- A `frontend/.env` file with `EXPO_PUBLIC_MAPBOX_TOKEN` is needed for the map. This file is gitignored.
+- The backend serves mock JSON and has no external dependencies.

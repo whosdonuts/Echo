@@ -137,6 +137,12 @@ export function EchoMap({ onFragmentSelect, onAcebClick }: EchoMapProps) {
       mapRef.current = map;
 
       map.on('load', () => {
+        // Hide base-map POI dots/icons so only our markers are visible
+        const poiLayers = ['poi-label', 'transit-label'];
+        for (const lid of poiLayers) {
+          if (map.getLayer(lid)) map.setLayoutProperty(lid, 'visibility', 'none');
+        }
+
         addCampusMarkers(map, gl);
         addPlayer(map, gl);
       });
@@ -449,17 +455,15 @@ function createOrbEl(frag: WesternFragment): HTMLDivElement {
 // ── Injected CSS ────────────────────────────────────────────────────────
 
 const ALL_CSS = `
-.echo-orb { position:relative; cursor:pointer; display:flex; align-items:center; justify-content:center; will-change:transform; }
-.echo-orb:hover { transform:scale(1.12); }
-.echo-orb__glow { position:absolute; border-radius:50%; }
+.echo-orb { position:relative; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.echo-orb__glow { position:absolute; border-radius:50%; pointer-events:none; }
 .echo-orb--premium .echo-orb__glow { animation:orb-breathe 2.8s ease-in-out infinite; }
 .echo-orb--unlocked .echo-orb__glow { animation:orb-breathe 3s ease-in-out infinite; }
 .echo-orb--locked .echo-orb__glow { opacity:.4; }
-.echo-orb__core { border-radius:50%; border:1.5px solid rgba(255,255,255,.95); box-shadow:0 1px 4px rgba(0,0,0,.12); z-index:1; }
+.echo-orb__core { border-radius:50%; border:1.5px solid rgba(255,255,255,.95); box-shadow:0 1px 4px rgba(0,0,0,.12); z-index:1; position:relative; }
 .echo-orb--premium .echo-orb__core { border-width:2px; }
 .echo-orb--unlocked .echo-orb__core { border-color:rgba(255,230,150,.92); box-shadow:0 0 6px rgba(212,160,23,.35),0 1px 4px rgba(0,0,0,.12); }
 .echo-orb--locked .echo-orb__core { opacity:.55; border-color:rgba(255,255,255,.6); }
-.echo-orb:hover .echo-orb__core { transform:scale(1.18); }
 .echo-orb__check { position:absolute; top:-1px; right:-1px; width:10px; height:10px; border-radius:50%; background:#d4a017; border:1.5px solid white; z-index:2; }
 .echo-ripple { position:absolute; width:100%; height:100%; border-radius:50%; border:1.5px solid currentColor; animation:ripple-expand .48s ease-out forwards; pointer-events:none; }
 .player-halo { width:48px; height:48px; position:relative; display:flex; align-items:center; justify-content:center; }
